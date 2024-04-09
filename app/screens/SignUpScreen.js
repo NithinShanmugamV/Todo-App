@@ -1,7 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Button } from 'react-native';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 
 const SignupScreen = () => {
 //   const signInWithGoogle = async () => {
@@ -30,12 +30,7 @@ const SignupScreen = () => {
 
   return (
     <View>
-      <GoogleSigninButton
-        style={{ width: 192, height: 48 }}
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Light}
-        onPress={signInWithGoogle}
-      />
+     
       <Button title="Sign in with Google" />
     </View>
   );

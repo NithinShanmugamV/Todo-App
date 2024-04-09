@@ -1,24 +1,19 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View, TextInput, Button } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
+import { React, useState }  from 'react'
 import Header from '../Components/Header'
 import TodoForm from '../Components/TodoListItem'
 import Footer from '../Components/Footer'
 import TodoListItem from '../Components/TodoListItem'
 import AddTodo from '../Components/AddTodo'
 import CreateTask from '../Components/CreateTask'
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import WelcomeScreen from './WelcomeScreen'
-import SignupScreen from './SignUpScreen'
 
-const Tab = createMaterialBottomTabNavigator(); 
-export default function TodoScreen() {
+export default function MyDayScreen() {
     const [todos, setTodos] = useState([
         { text: "Complete react native training", key: 1, completed: true, important: true, description: "", endDate: "", myDay: false },
         { text: "Complete acceptable policy training", key: 2, completed: false, important: false, description: "", endDate: "", myDay: false},
         { text: "Attend townhall", key: 3, completed: false, important: true, description: "", endDate: "", myDay: true }
     ]);
+
 
     const addHandler = (text, date ) => {
         setTodos(prevTodos => {
@@ -35,10 +30,6 @@ export default function TodoScreen() {
         });
     }
 
-    const handlerStatus = (list, status) => {
-        return list.filter(todo => todo.completed == status);
-    }
-
     const handlerChangeItemStatus = key => {
         setTodos(prevTodos => {
             return prevTodos.map(todo => {
@@ -49,12 +40,16 @@ export default function TodoScreen() {
         })
     }
 
+    const handlerStatus = (list, status) => {
+        return list.filter(todo => todo.myDay == true);
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Header style={styles.header} />
             <View style={styles.content}>
                 <View style={styles.list}>
-                    <Text>Progress</Text>
+                    <Text>My Day</Text>
                     <FlatList
                         data={handlerStatus(todos, false)}
                         renderItem={({ item }) => (
@@ -62,18 +57,7 @@ export default function TodoScreen() {
                         )}
                     />
                 </View>
-
-                <View style={styles.list}>
-                    <Text>Completed</Text>
-                    <FlatList
-                        data={handlerStatus(todos, true)}
-                        renderItem={({ item }) => (
-                            <TodoListItem item={item} handlerRemoveItem={handlerRemoveItem} handlerChangeItemStatus={handlerChangeItemStatus} />
-                        )}
-                    />
-                </View>
-                
-                <CreateTask addHandler = {addHandler}/>
+                <CreateTask addHandler={addHandler} />
                 {/* <AddTodo style={styles.addButton} submitHandler={addHandler} /> */}
             </View>
         </SafeAreaView>

@@ -8,7 +8,7 @@ export default function WelcomeScreen() {
       source={require("../assets/background.jpg")}
     >
       <View style = {styles.logoContainer}>
-        <Image style={styles.logo} source={require("../assets/image.png")} />
+        <Image style={styles.logo} source={require("../assets/profile.png")} />
         <Text>Sell what you want</Text>
       </View>
       <View style={styles.loginButton}></View>
