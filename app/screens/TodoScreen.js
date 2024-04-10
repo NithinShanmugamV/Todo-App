@@ -1,5 +1,5 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, View, TextInput, Button } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Header from '../Components/Header'
 import TodoForm from '../Components/TodoListItem'
 import Footer from '../Components/Footer'
@@ -11,14 +11,11 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import WelcomeScreen from './WelcomeScreen'
 import SignupScreen from './SignUpScreen'
+import UserContext from '../Context/UserContext'
 
 const Tab = createMaterialBottomTabNavigator(); 
 export default function TodoScreen() {
-    const [todos, setTodos] = useState([
-        { text: "Complete react native training", key: 1, completed: true, important: true, description: "", endDate: "", myDay: false },
-        { text: "Complete acceptable policy training", key: 2, completed: false, important: false, description: "", endDate: "", myDay: false},
-        { text: "Attend townhall", key: 3, completed: false, important: true, description: "", endDate: "", myDay: true }
-    ]);
+    const {todos, setTodos} = useContext(UserContext);
 
     const addHandler = (text, date ) => {
         setTodos(prevTodos => {

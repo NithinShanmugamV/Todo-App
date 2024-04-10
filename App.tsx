@@ -8,6 +8,7 @@
 import React from 'react';
 
 import MainContainer from './app/MainContainer';
+import UserContextProvider from './app/Context/UserContextProvider';
 
 
 
@@ -17,7 +18,8 @@ import MainContainer from './app/MainContainer';
 export default function App() {
 
   return (
-    <MainContainer />
+    <UserContextProvider>
+      <MainContainer /></UserContextProvider>
   );
 }
 
