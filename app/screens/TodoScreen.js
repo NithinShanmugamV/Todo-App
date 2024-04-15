@@ -1,103 +1,138 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View, TextInput, Button } from 'react-native'
-import React, { useContext, useState } from 'react'
-import Header from '../Components/Header'
-import TodoForm from '../Components/TodoListItem'
-import Footer from '../Components/Footer'
-import TodoListItem from '../Components/TodoListItem'
-import AddTodo from '../Components/AddTodo'
-import CreateTask from '../Components/CreateTask'
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import WelcomeScreen from './WelcomeScreen'
-import SignupScreen from './SignUpScreen'
-import UserContext from '../Context/UserContext'
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  ScrollView,
+} from 'react-native';
+import React, {useContext, useState} from 'react';
+import Header from '../Components/Header';
+import TodoListItem from '../Components/TodoListItem';
+import CreateTask from '../Components/CreateTask';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import TaskContext from '../Context/TaskContext';
 
-const Tab = createMaterialBottomTabNavigator(); 
+const Tab = createMaterialBottomTabNavigator();
 export default function TodoScreen() {
-    const {todos, setTodos} = useContext(UserContext);
+  const {todos, setTodos} = useContext(TaskContext);
 
-    const addHandler = (text, date ) => {
-        setTodos(prevTodos => {
-            return [
-                ...prevTodos,
-                { text: text, key: prevTodos.length + 1, completed: false, important: true, description: "", endDate: date, myDay: false }
-            ];
-        })
-    }
+  const addHandler = (text, date, important, myDay) => {
+    setTodos(prevTodos => {
+      return [
+        ...prevTodos,
+        {
+          text: text,
+          key: prevTodos.length + 1,
+          completed: false,
+          important: important,
+          description: '',
+          endDate: date,
+          myDay: myDay,
+        },
+      ];
+    });
+  };
 
-    const handlerRemoveItem = (key) => {
-        setTodos((todos) => {
-            return todos.filter(todo => todo.key != key)
-        });
-    }
+  const handlerRemoveItem = key => {
+    setTodos(todos => {
+      return todos.filter(todo => todo.key != key);
+    });
+  };
 
-    const handlerStatus = (list, status) => {
-        return list.filter(todo => todo.completed == status);
-    }
+  const handlerStatus = (list, status) => {
+    return list.filter(todo => todo.completed == status);
+  };
 
-    const handlerChangeItemStatus = key => {
-        setTodos(prevTodos => {
-            return prevTodos.map(todo => {
-                if (todo.key == key) return { ...todo, completed: !todo.completed };
+  const handlerChangeItemStatus = key => {
+    setTodos(prevTodos => {
+      return prevTodos.map(todo => {
+        if (todo.key == key) return {...todo, completed: !todo.completed};
 
-                return todo;
-            })
-        })
-    }
+        return todo;
+      });
+    });
+  };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <Header style={styles.header} />
-            <View style={styles.content}>
-                <View style={styles.list}>
-                    <Text>Progress</Text>
-                    <FlatList
-                        data={handlerStatus(todos, false)}
-                        renderItem={({ item }) => (
-                            <TodoListItem item={item} handlerRemoveItem={handlerRemoveItem} handlerChangeItemStatus={handlerChangeItemStatus} />
-                        )}
-                    />
-                </View>
+  return (
+    <SafeAreaView style={styles.container}>
+      <Header style={styles.header} />
+      <View style={styles.content}>
+        <View style={styles.list}>
+          <Text>Progress</Text>
+          <ScrollView>
+            {todos.map(item => {
+              if (item.completed === false) {
+                return (
+                  <TodoListItem
+                    key={item.key}
+                    item={item}
+                    handlerRemoveItem={handlerRemoveItem}
+                    handlerChangeItemStatus={handlerChangeItemStatus}
+                  />
+                );
+              } else {
+                return null; // If item is completed, don't render it
+              }
+            })}
+          </ScrollView>
+        </View>
 
-                <View style={styles.list}>
-                    <Text>Completed</Text>
-                    <FlatList
-                        data={handlerStatus(todos, true)}
-                        renderItem={({ item }) => (
-                            <TodoListItem item={item} handlerRemoveItem={handlerRemoveItem} handlerChangeItemStatus={handlerChangeItemStatus} />
-                        )}
-                    />
-                </View>
-                
-                <CreateTask addHandler = {addHandler}/>
-                {/* <AddTodo style={styles.addButton} submitHandler={addHandler} /> */}
-            </View>
-        </SafeAreaView>
-    )
+        <View style={styles.list}>
+          <Text>Completed</Text>
+          <ScrollView>
+            {todos.map(item => {
+              if (item.completed === true) {
+                return (
+                  <TodoListItem
+                    key={item.key}
+                    item={item}
+                    handlerRemoveItem={handlerRemoveItem}
+                    handlerChangeItemStatus={handlerChangeItemStatus}
+                  />
+                );
+              } else {
+                return null; // If item is completed, don't render it
+              }
+            })}
+          </ScrollView>
+        </View>
+      </View>
+      <CreateTask addHandler={addHandler} />
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'space-between', // Align children with space between
-    },
-    content: {
-        flex: 1,
-        padding: 20,
-    },
-    header: {
-        // Header styles
-    },
-    list: {
-        marginBottom: 20, // Add margin to the bottom of each list
-    },
-    addButton: {
-        position: 'absolute',
-        bottom: 20, // Adjust as needed
-        right: 20, // Adjust as needed
-        backgroundColor: 'blue',
-        padding: 10,
-        borderRadius: 5,
-    },
-})
+  container: {
+    flex: 1,
+    justifyContent: 'space-between', // Align children with space between
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  header: {
+    // Header styles
+  },
+  list: {
+    marginBottom: 20, // Add margin to the bottom of each list
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: 20, // Adjust as needed
+    right: 20, // Adjust as needed
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+  },
+
+  scrollView: {
+    height: 300, // Set a specific height for the ScrollView
+  },
+  flatList: {
+    flexGrow: 1,
+  },
+});
