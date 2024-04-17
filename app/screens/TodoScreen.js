@@ -13,7 +13,7 @@ import Header from '../Components/Header';
 import TodoListItem from '../Components/TodoListItem';
 import CreateTask from '../Components/CreateTask';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import TaskContext from '../Context/TaskContext';
+import {TaskContext} from '../Context/TaskContextProvider';
 
 const Tab = createMaterialBottomTabNavigator();
 export default function TodoScreen() {

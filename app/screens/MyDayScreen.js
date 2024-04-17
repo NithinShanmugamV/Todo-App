@@ -1,9 +1,10 @@
-import {StyleSheet, Text, View, SafeAreaView, FlatList} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import {React, useState, useContext} from 'react';
 import Header from '../Components/Header';
 import TodoListItem from '../Components/TodoListItem';
 import CreateTask from '../Components/CreateTask';
-import TaskContext from '../Context/TaskContext';
+import { TaskContext } from '../Context/TaskContextProvider';
+
 export default function MyDayScreen() {
   const {todos, setTodos} = useContext(TaskContext);
 
@@ -51,16 +52,22 @@ export default function MyDayScreen() {
       <View style={styles.content}>
         <View style={styles.list}>
           <Text>My Day</Text>
-          <FlatList
-            data={handlerStatus(todos, false)}
-            renderItem={({item}) => (
-              <TodoListItem
-                item={item}
-                handlerRemoveItem={handlerRemoveItem}
-                handlerChangeItemStatus={handlerChangeItemStatus}
-              />
-            )}
-          />
+          <ScrollView>
+            {todos.map(item => {
+              if (item.myDay === true) {
+                return (
+                  <TodoListItem
+                    key={item.key}
+                    item={item}
+                    handlerRemoveItem={handlerRemoveItem}
+                    handlerChangeItemStatus={handlerChangeItemStatus}
+                  />
+                );
+              } else {
+                return null; // If item is completed, don't render it
+              }
+            })}
+          </ScrollView>
         </View>
         <CreateTask addHandler={addHandler} />
         {/* <AddTodo style={styles.addButton} submitHandler={addHandler} /> */}
