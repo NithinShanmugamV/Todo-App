@@ -1,0 +1,67 @@
+{
+  "users": [
+    {
+      "name": "Nithin",
+      "email": "nithin.shanmugam@bounteous.com",
+      "todos": [
+        {
+          "text": "Nithin- Complete react native training",
+          "key": 1,
+          "completed": true,
+          "important": true,
+          "description": "",
+          "endDate": "",
+          "myDay": false
+        },
+        {
+          "text": "Complete acceptable policy training",
+          "key": 2,
+          "completed": false,
+          "important": false,
+          "description": "",
+          "endDate": "",
+          "myDay": false
+        },
+        {
+          "text": "Attend townhall",
+          "key": 3,
+          "completed": false,
+          "important": true,
+          "description": "",
+          "endDate": "",
+          "myDay": true
+        }
+      ]
+    },
+    {
+      "name": "Alice",
+      "email": "alice@example.com",
+      "todos": [
+        {
+          "text": "Complete coding challenge",
+          "key": 1,
+          "completed": false,
+          "important": true,
+          "description": "",
+          "endDate": "",
+          "myDay": false
+        },
+        {
+          "text": "Prepare for interview",
+          "key": 2,
+          "completed": false,
+          "important": false,
+          "description": "",
+          "endDate": "",
+          "myDay": false
+        }
+      ]
+    },
+    {
+      "id": "b0b4",
+      "name": "nithin",
+      "email": "nithinshanmugamv@gmail.com",
+      "todos": []
+    }
+  ]
+}

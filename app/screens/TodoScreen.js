@@ -7,40 +7,16 @@ import {
   TextInput,
   Button,
   ScrollView,
+  Alert,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
-import Header from '../Components/Header';
-import TodoListItem from '../Components/TodoListItem';
-import CreateTask from '../Components/CreateTask';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {TaskContext} from '../Context/TaskContextProvider';
+import React, {useContext, useEffect, useState} from 'react';
+import Header from '../components/Header';
+import TodoListItem from '../components/TodoListItem';
+import CreateTask from '../components/CreateTask';
+import {TaskContext} from '../context/TaskContextProvider';
 
-const Tab = createMaterialBottomTabNavigator();
 export default function TodoScreen() {
   const {todos, setTodos} = useContext(TaskContext);
-
-  const addHandler = (text, date, important, myDay) => {
-    setTodos(prevTodos => {
-      return [
-        ...prevTodos,
-        {
-          text: text,
-          key: prevTodos.length + 1,
-          completed: false,
-          important: important,
-          description: '',
-          endDate: date,
-          myDay: myDay,
-        },
-      ];
-    });
-  };
-
-  const handlerRemoveItem = key => {
-    setTodos(todos => {
-      return todos.filter(todo => todo.key != key);
-    });
-  };
 
   const handlerStatus = (list, status) => {
     return list.filter(todo => todo.completed == status);
@@ -69,7 +45,6 @@ export default function TodoScreen() {
                   <TodoListItem
                     key={item.key}
                     item={item}
-                    handlerRemoveItem={handlerRemoveItem}
                     handlerChangeItemStatus={handlerChangeItemStatus}
                   />
                 );
@@ -89,7 +64,6 @@ export default function TodoScreen() {
                   <TodoListItem
                     key={item.key}
                     item={item}
-                    handlerRemoveItem={handlerRemoveItem}
                     handlerChangeItemStatus={handlerChangeItemStatus}
                   />
                 );
@@ -100,7 +74,7 @@ export default function TodoScreen() {
           </ScrollView>
         </View>
       </View>
-      <CreateTask addHandler={addHandler} />
+      <CreateTask/>
     </SafeAreaView>
   );
 }

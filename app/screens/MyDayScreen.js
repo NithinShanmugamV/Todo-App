@@ -1,30 +1,12 @@
 import {StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import {React, useState, useContext} from 'react';
-import Header from '../Components/Header';
-import TodoListItem from '../Components/TodoListItem';
-import CreateTask from '../Components/CreateTask';
-import { TaskContext } from '../Context/TaskContextProvider';
+import Header from '../components/Header';
+import TodoListItem from '../components/TodoListItem';
+import CreateTask from '../components/CreateTask';
+import { TaskContext } from '../context/TaskContextProvider';
 
 export default function MyDayScreen() {
   const {todos, setTodos} = useContext(TaskContext);
-
-  const addHandler = (text, date, important, myDay) => {
-    setTodos(prevTodos => {
-      return [
-        ...prevTodos,
-        {
-          text: text,
-          key: prevTodos.length + 1,
-          completed: false,
-          important: important,
-          description: '',
-          endDate: date,
-          myDay: myDay,
-        },
-      ];
-    });
-    console.log(todos);
-  };
 
   const handlerRemoveItem = key => {
     setTodos(todos => {
@@ -69,8 +51,7 @@ export default function MyDayScreen() {
             })}
           </ScrollView>
         </View>
-        <CreateTask addHandler={addHandler} />
-        {/* <AddTodo style={styles.addButton} submitHandler={addHandler} /> */}
+        <CreateTask/>
       </View>
     </SafeAreaView>
   );

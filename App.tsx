@@ -8,9 +8,9 @@
 import React from 'react';
 
 import MainContainer from './app/MainContainer';
-import TaskContextProvider from './app/Context/TaskContextProvider';
+import TaskContextProvider from './app/context/TaskContextProvider';
 import 'react-native-gesture-handler';
-import UserContextProvider from './app/Context/UserContextProvider';
+import UserContextProvider from './app/context/UserContextProvider';
 
 export default function App() {
   return (

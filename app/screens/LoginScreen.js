@@ -1,4 +1,4 @@
-import {Button, StyleSheet, Text, View, TextInput} from 'react-native';
+import {Button, StyleSheet, Text, View, TextInput, Alert} from 'react-native';
 import React, {useState} from 'react';
 import {FIREBASE_AUTH} from '../FirebaseConfig';
 import {signInWithEmailAndPassword} from 'firebase/auth';
@@ -15,11 +15,27 @@ export default function () {
   const login = async () => {
     setLoading(true);
     try {
-      const response = signInWithEmailAndPassword(auth, email, pw);
+      const response = await signInWithEmailAndPassword(auth, email, pw);
       console.log(response);
       console.log('Success');
     } catch (err) {
-      console.log(err);
+      // Check error codes and handle different cases
+      switch (err.code) {
+        case 'auth/user-not-found':
+          console.log('Account not found.');
+          Alert.alert('Account not found.');
+          // Handle account not found error (e.g., display an error message)
+          break;
+        case 'auth/wrong-password':
+          console.log('Incorrect password.');
+          // Handle incorrect password error (e.g., display an error message)
+          Alert.alert('Incorrect password.');
+          break;
+        default:
+          console.log('Error:', err.message);
+          // Handle other errors (e.g., display a generic error message)
+          Alert.alert(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -50,7 +66,7 @@ export default function () {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <View>
-          <Button title="Login with Google" onPress={login} />
+          <Button title="Login" onPress={login} />
           <Button title="Create an account" onPress={goToSignup} />
         </View>
       )}

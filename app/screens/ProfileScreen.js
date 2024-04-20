@@ -1,6 +1,6 @@
 import {Button, StyleSheet, Text, View} from 'react-native';
 import React, {useContext} from 'react';
-import {UserContext} from '../Context/UserContextProvider';
+import {UserContext} from '../context/UserContextProvider';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH} from '../FirebaseConfig';
 

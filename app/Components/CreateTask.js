@@ -8,25 +8,25 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useReducer, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {RadioButton} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {TaskContext} from '../context/TaskContextProvider';
 
-export default function CreateTask({addHandler}) {
+export default function CreateTask() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [text, setText] = useState('');
-  const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
-  const [important, setImportant] = useState(true);
-  const [myDay, setMyDay] = useState(true);
-  const [description, setDescription] = useState('');
 
-  const changeHandler = val => setText(val);
+  const [modalData, setModalData] = useState({
+    text: '',
+    date: new Date(),
+    important: true,
+    myDay: true,
+    description: '',
+  });
 
-  const handleChangeDesc = val => setDescription(val);
-
-  const showHandler = () => setOpen(true);
+  const {todos, todoDispatch} = useContext(TaskContext);
 
   return (
     <View style={styles.centeredView}>
@@ -47,7 +47,7 @@ export default function CreateTask({addHandler}) {
               <TextInput
                 multiline
                 placeholder="new task.."
-                onChangeText={changeHandler}
+                onChangeText={val => setModalData({...modalData, text: val})}
                 styles={styles.input}
               />
             </View>
@@ -56,14 +56,14 @@ export default function CreateTask({addHandler}) {
 
             <View style={styles.modalEle}>
               <Text style={styles.textLabel}>Date: </Text>
-              <Button title= "Select date" onPress={showHandler} />
+              <Button title="Select date" onPress={() => setOpen(true)} />
               <DatePicker
                 modal
                 open={open}
-                date={date}
+                date={modalData.date}
                 onConfirm={date => {
                   setOpen(false);
-                  setDate(date);
+                  setModalData({...modalData, date: date});
                   console.log(date);
                 }}
                 onCancel={() => {
@@ -78,14 +78,16 @@ export default function CreateTask({addHandler}) {
                 <RadioButton
                   value="true"
                   style={styles.radioButtonEle}
-                  status={important == true ? 'checked' : 'unchecked'}
-                  onPress={() => setImportant(true)}
+                  status={modalData.important == true ? 'checked' : 'unchecked'}
+                  onPress={() => setModalData({...modalData, important: true})}
                 />
                 <RadioButton
                   value="false"
                   style={styles.radioButtonEle}
-                  status={important == false ? 'checked' : 'unchecked'}
-                  onPress={() => setImportant(false)}
+                  status={
+                    modalData.important == false ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setModalData({...modalData, important: false})}
                 />
               </View>
             </View>
@@ -96,13 +98,13 @@ export default function CreateTask({addHandler}) {
               <View style={styles.radioButton}>
                 <RadioButton
                   value="true"
-                  status={myDay == true ? 'checked' : 'unchecked'}
-                  onPress={() => setMyDay(true)}
+                  status={modalData.myDay == true ? 'checked' : 'unchecked'}
+                  onPress={() => setModalData({...modalData, myDay: true})}
                 />
                 <RadioButton
                   value="false"
-                  status={myDay == false ? 'checked' : 'unchecked'}
-                  onPress={() => setMyDay(false)}
+                  status={modalData.myDay == false ? 'checked' : 'unchecked'}
+                  onPress={() => setModalData({...modalData, myDay: false})}
                 />
               </View>
             </View>
@@ -110,8 +112,10 @@ export default function CreateTask({addHandler}) {
             <TextInput
               multiline
               numberOfLines={5} // Adjust as needed
-              value={description}
-              onChangeText={handleChangeDesc}
+              value={modalData.description}
+              onChangeText={val =>
+                setModalData({...modalData, description: val})
+              }
               placeholder="Description"
               style={styles.description}
             />
@@ -120,7 +124,7 @@ export default function CreateTask({addHandler}) {
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
-                  addHandler(text, date, important, myDay);
+                  todoDispatch({type: 'ADD_TODO', payload: modalData});
                   setModalVisible(!modalVisible);
                 }}>
                 <Text style={styles.textStyle}>Add</Text>
@@ -209,8 +213,8 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     marginLeft: 10,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonOpen: {
     backgroundColor: 'green',
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
   buttonAdd: {
     position: 'absolute',
     bottom: '10%',
-    right: '10%'
+    right: '10%',
   },
   textStyle: {
     color: 'white',

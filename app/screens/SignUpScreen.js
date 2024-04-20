@@ -1,4 +1,4 @@
-import {Button, StyleSheet, Text, View, TextInput} from 'react-native';
+import {Button, StyleSheet, Text, View, TextInput, Alert} from 'react-native';
 import React, {useState} from 'react';
 import {FIREBASE_AUTH} from '../FirebaseConfig';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
@@ -7,19 +7,56 @@ import {useNavigation} from '@react-navigation/native';
 
 const auth = FIREBASE_AUTH;
 export default function () {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const SignUp = async () => {
     setLoading(true);
     try {
-      const response = createUserWithEmailAndPassword(auth, email, pw);
+      if (confirmPw !== pw) Alert.alert("Password didn't match");
+      else if (pw.length < 8)
+        Alert.alert('Password length should be atleast 8');
+      else if (name.length === 0) Alert.alert('Please enter name');
+      else {
+        createUserWithEmailAndPassword(auth, email, pw)
+          .then(res => {
+            const userData = {
+              name: name,
+              email: email,
+              todos: [],
+            };
+
+            const url = 'http://localhost:3000/users';
+
+            const requestOptions = {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(userData),
+            };
+
+            fetch(url, requestOptions)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Failed to add user');
+                }
+                return response.json(); // Assuming the server returns the added user data
+              })
+              .then(data => console.log('User added successfully:', data))
+              .catch(err => Alert.alert(err));
+          })
+          .catch(err => Alert.alert(err));
+      }
+
       console.log(response);
     } catch (err) {
       console.log(err);
-      alert('SignUp failed: ' + err.message);
+      Alert.alert('SignUp failed: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -34,9 +71,16 @@ export default function () {
       <TextInput
         value={email}
         style={styles.input}
-        placeholder="Enter email address"
+        placeholder="Email address"
         autoCapitalize="none"
         onChangeText={text => setEmail(text)}
+      />
+      <TextInput
+        value={name}
+        style={styles.input}
+        placeholder="Name"
+        autoCapitalize="none"
+        onChangeText={text => setName(text)}
       />
       <TextInput
         value={pw}
@@ -45,6 +89,14 @@ export default function () {
         placeholder="Enter password"
         autoCapitalize="none"
         onChangeText={text => setPw(text)}
+      />
+      <TextInput
+        value={confirmPw}
+        secureTextEntry={true}
+        style={styles.input}
+        placeholder="Confirm password"
+        autoCapitalize="none"
+        onChangeText={text => setConfirmPw(text)}
       />
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />

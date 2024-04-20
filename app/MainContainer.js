@@ -10,7 +10,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import 'react-native-gesture-handler';
 import {onAuthStateChanged} from 'firebase/auth';
 import {FIREBASE_AUTH} from './FirebaseConfig';
-import {UserContext} from './Context/UserContextProvider';
+import {UserContext} from './context/UserContextProvider';
 import ProfileScreen from './screens/ProfileScreen';
 // import User from 'firebase/auth'
 
