@@ -14,26 +14,9 @@ import Header from '../components/Header';
 import TodoListItem from '../components/TodoListItem';
 import CreateTask from '../components/CreateTask';
 import {TaskContext} from '../context/TaskContextProvider';
-import {UserContext} from '../context/UserContextProvider';
 
 export default function TodoScreen() {
   const {todos} = useContext(TaskContext);
-  const {user} = useContext(UserContext);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     const url = `http://localhost:3000/users?email=${user.email}`;
-  //     fetch(url)
-  //       .then(res => {
-  //         return res.json();
-  //       })
-  //       .then(data => {
-  //         storedTodos = data;
-  //         // console.log("todos: ", data[0].todos);
-  //       })
-  //       .catch(err => Alert.alert(err));
-  //   }
-  // }, [user]);
 
   return (
     <SafeAreaView style={styles.container}>
