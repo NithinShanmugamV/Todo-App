@@ -14,23 +14,26 @@ import Header from '../components/Header';
 import TodoListItem from '../components/TodoListItem';
 import CreateTask from '../components/CreateTask';
 import {TaskContext} from '../context/TaskContextProvider';
+import {UserContext} from '../context/UserContextProvider';
 
 export default function TodoScreen() {
-  const {todos, setTodos} = useContext(TaskContext);
+  const {todos} = useContext(TaskContext);
+  const {user} = useContext(UserContext);
 
-  const handlerStatus = (list, status) => {
-    return list.filter(todo => todo.completed == status);
-  };
-
-  const handlerChangeItemStatus = key => {
-    setTodos(prevTodos => {
-      return prevTodos.map(todo => {
-        if (todo.key == key) return {...todo, completed: !todo.completed};
-
-        return todo;
-      });
-    });
-  };
+  // useEffect(() => {
+  //   if (user) {
+  //     const url = `http://localhost:3000/users?email=${user.email}`;
+  //     fetch(url)
+  //       .then(res => {
+  //         return res.json();
+  //       })
+  //       .then(data => {
+  //         storedTodos = data;
+  //         // console.log("todos: ", data[0].todos);
+  //       })
+  //       .catch(err => Alert.alert(err));
+  //   }
+  // }, [user]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,13 +44,7 @@ export default function TodoScreen() {
           <ScrollView>
             {todos.map(item => {
               if (item.completed === false) {
-                return (
-                  <TodoListItem
-                    key={item.key}
-                    item={item}
-                    handlerChangeItemStatus={handlerChangeItemStatus}
-                  />
-                );
+                return <TodoListItem key={item.key} item={item} />;
               } else {
                 return null; // If item is completed, don't render it
               }
@@ -60,13 +57,7 @@ export default function TodoScreen() {
           <ScrollView>
             {todos.map(item => {
               if (item.completed === true) {
-                return (
-                  <TodoListItem
-                    key={item.key}
-                    item={item}
-                    handlerChangeItemStatus={handlerChangeItemStatus}
-                  />
-                );
+                return <TodoListItem key={item.key} item={item} />;
               } else {
                 return null; // If item is completed, don't render it
               }
@@ -74,7 +65,7 @@ export default function TodoScreen() {
           </ScrollView>
         </View>
       </View>
-      <CreateTask/>
+      <CreateTask />
     </SafeAreaView>
   );
 }

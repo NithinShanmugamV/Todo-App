@@ -3,30 +3,10 @@ import {React, useState, useContext} from 'react';
 import Header from '../components/Header';
 import TodoListItem from '../components/TodoListItem';
 import CreateTask from '../components/CreateTask';
-import { TaskContext } from '../context/TaskContextProvider';
+import {TaskContext} from '../context/TaskContextProvider';
 
 export default function MyDayScreen() {
-  const {todos, setTodos} = useContext(TaskContext);
-
-  const handlerRemoveItem = key => {
-    setTodos(todos => {
-      return todos.filter(todo => todo.key != key);
-    });
-  };
-
-  const handlerChangeItemStatus = key => {
-    setTodos(prevTodos => {
-      return prevTodos.map(todo => {
-        if (todo.key == key) return {...todo, completed: !todo.completed};
-
-        return todo;
-      });
-    });
-  };
-
-  const handlerStatus = (list, status) => {
-    return list.filter(todo => todo.myDay == true);
-  };
+  const {todos} = useContext(TaskContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,21 +17,14 @@ export default function MyDayScreen() {
           <ScrollView>
             {todos.map(item => {
               if (item.myDay === true) {
-                return (
-                  <TodoListItem
-                    key={item.key}
-                    item={item}
-                    handlerRemoveItem={handlerRemoveItem}
-                    handlerChangeItemStatus={handlerChangeItemStatus}
-                  />
-                );
+                return <TodoListItem key={item.key} item={item} />;
               } else {
                 return null; // If item is completed, don't render it
               }
             })}
           </ScrollView>
         </View>
-        <CreateTask/>
+        <CreateTask />
       </View>
     </SafeAreaView>
   );

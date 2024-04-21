@@ -3,14 +3,22 @@ import React, {useContext} from 'react';
 import {UserContext} from '../context/UserContextProvider';
 import {useNavigation} from '@react-navigation/native';
 import {FIREBASE_AUTH} from '../FirebaseConfig';
+import {TaskContext} from '../context/TaskContextProvider';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
+  const {todoDispatch} = useContext(TaskContext);
   return (
     <View style={styles.container}>
       <View>
         <Text>ProfileScreen</Text>
-        <Button title="Logout" onPress={() => FIREBASE_AUTH.signOut()} />
+        <Button
+          title="Logout"
+          onPress={() => {
+            todoDispatch({type: 'RESET'});
+            FIREBASE_AUTH.signOut();
+          }}
+        />
       </View>
     </View>
   );

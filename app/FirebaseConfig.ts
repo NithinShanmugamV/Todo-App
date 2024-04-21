@@ -27,4 +27,4 @@ getDocs( colRef ).then( snapshot => {
   console.log(snapshot.docs)
 }
 )
-const analytics = getAnalytics(FIREBASE_APP);
+// const analytics = getAnalytics(FIREBASE_APP);

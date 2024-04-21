@@ -55,8 +55,8 @@ export default function () {
 
       console.log(response);
     } catch (err) {
-      console.log(err);
-      Alert.alert('SignUp failed: ' + err.message);
+      const msg = (err.message).match(/\/([^/]+)\)/);
+      msg ? Alert.alert(msg[1]) : Alert.alert("Error occured")
     } finally {
       setLoading(false);
     }

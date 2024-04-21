@@ -25,6 +25,12 @@ export const TodoReducer = (state, action) => {
           ? {...todo, completed: !todo.completed}
           : todo,
       );
+    case 'LOAD_TODOS':
+      state = action.payload;
+      return state;
+    case 'RESET':
+      state = [];
+      return state;
     default:
       return state;
   }

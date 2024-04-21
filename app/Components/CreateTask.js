@@ -8,7 +8,7 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-import React, {useContext, useReducer, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {RadioButton} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';

@@ -20,22 +20,8 @@ export default function () {
       console.log('Success');
     } catch (err) {
       // Check error codes and handle different cases
-      switch (err.code) {
-        case 'auth/user-not-found':
-          console.log('Account not found.');
-          Alert.alert('Account not found.');
-          // Handle account not found error (e.g., display an error message)
-          break;
-        case 'auth/wrong-password':
-          console.log('Incorrect password.');
-          // Handle incorrect password error (e.g., display an error message)
-          Alert.alert('Incorrect password.');
-          break;
-        default:
-          console.log('Error:', err.message);
-          // Handle other errors (e.g., display a generic error message)
-          Alert.alert(err.message);
-      }
+      const msg = (err.message).match(/\/([^/]+)\)/);
+      msg ? Alert.alert(msg[1]) : Alert.alert("Error occured")
     } finally {
       setLoading(false);
     }

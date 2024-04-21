@@ -12,10 +12,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {TaskContext} from '../context/TaskContextProvider';
 
-export default function TodoListItem({
-  item,
-  handlerChangeItemStatus,
-}) {
+export default function TodoListItem({item}) {
   const {todos, todoDispatch} = useContext(TaskContext);
   return (
     <TouchableOpacity style={styles.item}>
@@ -25,14 +22,18 @@ export default function TodoListItem({
             name="check-circle"
             color="green"
             size={30}
-            onPress={() => todoDispatch({type: 'TOGGLE_TODO', payload: item.key})}
+            onPress={() =>
+              todoDispatch({type: 'TOGGLE_TODO', payload: item.key})
+            }
           />
         ) : (
           <Entypo
             name="progress-two"
             color="blue"
             size={30}
-            onPress={() => todoDispatch({type: 'TOGGLE_TODO', payload: item.key})}
+            onPress={() =>
+              todoDispatch({type: 'TOGGLE_TODO', payload: item.key})
+            }
           />
         )}
       </Text>
