@@ -15,13 +15,17 @@ export default function MyDayScreen() {
         <View style={styles.list}>
           <Text>My Day</Text>
           <ScrollView>
-            {todos.map(item => {
-              if (item.myDay === true) {
-                return <TodoListItem key={item.key} item={item} />;
-              } else {
-                return null; // If item is completed, don't render it
-              }
-            })}
+            {todos ? (
+              todos.map(item => {
+                if (item.myDay === true) {
+                  return <TodoListItem key={item.key} item={item} />;
+                } else {
+                  return null; // If item is completed, don't render it
+                }
+              })
+            ) : (
+              <></>
+            )}
           </ScrollView>
         </View>
         <CreateTask />
