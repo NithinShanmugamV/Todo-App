@@ -25,26 +25,34 @@ export default function TodoScreen() {
         <View style={styles.list}>
           <Text>Progress</Text>
           <ScrollView>
-            {todos.map(item => {
-              if (item.completed === false) {
-                return <TodoListItem key={item.key} item={item} />;
-              } else {
-                return null; // If item is completed, don't render it
-              }
-            })}
+            {todos ? (
+              todos.map(item => {
+                if (item.completed === false) {
+                  return <TodoListItem key={item.key} item={item} />;
+                } else {
+                  return null; // If item is completed, don't render it
+                }
+              })
+            ) : (
+              <></>
+            )}
           </ScrollView>
         </View>
 
         <View style={styles.list}>
           <Text>Completed</Text>
           <ScrollView>
-            {todos.map(item => {
-              if (item.completed === true) {
-                return <TodoListItem key={item.key} item={item} />;
-              } else {
-                return null; // If item is completed, don't render it
-              }
-            })}
+            {todos ? (
+              todos.map(item => {
+                if (item.completed === true) {
+                  return <TodoListItem key={item.key} item={item} />;
+                } else {
+                  return null; // If item is completed, don't render it
+                }
+              })
+            ) : (
+              <></>
+            )}
           </ScrollView>
         </View>
       </View>
