@@ -15,7 +15,7 @@ import {TaskContext} from '../context/TaskContextProvider';
 export default function TodoListItem({item}) {
   const {todos, todoDispatch} = useContext(TaskContext);
   return (
-    <TouchableOpacity style={styles.item}>
+    <TouchableOpacity style={styles.item} idName = "headerComponent">
       <Text>
         {item.completed ? (
           <Feather

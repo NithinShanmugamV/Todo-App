@@ -9,24 +9,28 @@ export default function MyDayScreen() {
   const {todos} = useContext(TaskContext);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Header style={styles.header} />
       <View style={styles.content}>
         <View style={styles.list}>
           <Text>My Day</Text>
           <ScrollView>
-            {todos.map(item => {
-              if (item.myDay === true) {
-                return <TodoListItem key={item.key} item={item} />;
-              } else {
-                return null; // If item is completed, don't render it
-              }
-            })}
+            {todos ? (
+              todos.map(item => {
+                if (item.myDay === true) {
+                  return <TodoListItem key={item.key} item={item} />;
+                } else {
+                  return null; // If item is completed, don't render it
+                }
+              })
+            ) : (
+              <></>
+            )}
           </ScrollView>
         </View>
         <CreateTask />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

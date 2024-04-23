@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function () {
   return (
-    <View style={styles.logoContainer}>
+    <View style={styles.logoContainer} id = "headerComponent">
       <Image style={styles.logo} source={require('../assets/todo.jpeg')} />
       <Text style={styles.logoText}>ToDo App</Text>
       <Image style={styles.profile} source={require('../assets/profile.png')} />
