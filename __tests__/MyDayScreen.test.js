@@ -1,11 +1,13 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import MyDayScreen from '../app/screens/MyDayScreen'
+import '../__mocks__/setupTest.js'
 
-jest.mock('react-native-keyboard-aware-scroll-view', () => {
-    const KeyboardAwareScrollView = ({ children }) => children;
-    return { KeyboardAwareScrollView };
-});
+
+const ScrollView = jest.mock('ScrollView', () => jest.genMockFromModule('ScrollView'));
+
+
+
 
 describe('<MyDayScreen />', () => {
   test('renders header correctly', () => {
